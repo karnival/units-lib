@@ -1,6 +1,6 @@
 # Global dictionary of conversion factors.
-factor_dict = {("metres", "metres") : 1, ("metres", "millimetres") : 1000,
-               ("millimetres", "metres") : 0.001}
+factor_dict = {"metres" : (["metres"], 1.0), "millimetres" : (["metres"], 1000.0), "coulombs" : (["coulombs"], 1.0)}
+               
 
 # Amount of some quantity -- e.g. 5*metres.
 class Amount(object):
@@ -39,11 +39,31 @@ class Amount(object):
             return self.number==converted.number
 
     def to(self, new_unit):
-        if self.unit == new_unit:
-            return self
+        if type(new_unit) is Amount:
+            if self.unit == new_unit.unit:
+                return self
+            else:
+                factor = self.find_factor(new_unit.unit) 
+                return Amount(self.number*factor, new_unit.unit)
         else:
-            factor = factor_dict[self.unit.compact_string, new_unit.compact_string]
-            return Amount(self.number*factor, new_unit)
+            if self.unit == new_unit:
+                return self
+            else:
+                factor = self.find_factor(new_unit)
+                return Amount(self.number*factor, new_unit)
+
+    def find_factor(self, new_unit):
+        # Look up conversions to SI, unit by unit.
+        new_to_SI = 1
+        for unit in new_unit.units_list:
+            new_to_SI = new_to_SI*factor_dict[unit][1]
+
+        self_to_SI = 1
+        for unit in self.unit.units_list:
+            self_to_SI = self_to_SI*factor_dict[unit][1]
+
+        return new_to_SI / self_to_SI 
+
 
 class Unit(object):
     def __init__(self, units_list):
@@ -55,7 +75,7 @@ class Unit(object):
         self.compact_string = " ".join(self.units_list)
 
     def __eq__(self, other):
-        return (self.compact_string == other.compact_string)
+        return (sorted(self.units_list) == sorted(other.units_list))
 
     def __mul__(self, other):
         return Unit(self.units_list + other.units_list)
