@@ -19,7 +19,7 @@ class Amount:
         if isinstance(other, (int, long, float)):
             return Amount(other*self.number, self.unit)
         elif isinstance(other, Amount):
-            return Amount(other.number*self.number, self.unit*self.unit)
+            return Amount(other.number*self.number, self.unit + " " + other.unit)
 
     def __rmul__(self, other):
         return self.__mul__(other)
@@ -42,3 +42,4 @@ class Amount:
 
 metres = Amount(1, "metres")
 millimetres = Amount(1, "millimetres")
+coulombs = Amount(1, "coulombs")

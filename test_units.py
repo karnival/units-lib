@@ -25,6 +25,11 @@ def test_equality():
 
 def test_multiplication():
     assert_equal(3*metres*5, 15*metres)
+    assert_equal((3*metres * 5*coulombs), 15*metres*coulombs)
 
 def test_inconsistent_units():
-    pass
+    try:
+        3*metres + 5*coulombs
+    except KeyError:
+        assert True
+
