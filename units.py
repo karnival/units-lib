@@ -29,17 +29,5 @@ class Amount:
             return Amount(self.number*factor, new_unit)
 
 
-a = Amount(5, "metres")
-print(a.number)
-print(a.unit)
-print((a + Amount(2, "metres")).number)
-print((a + Amount(2, "metres")).unit)
-print((a + Amount(2, "millimetres")).number)
-print((a + Amount(2, "millimetres")).unit)
-print((Amount(2, "millimetres") + a).number)
-print((Amount(2, "millimetres") + a).unit)
-
-
 metres = Amount(1, "metres")
-print(3*metres)
-print(3*metres + 5*metres)
+millimetres = Amount(1, "millimetres")
