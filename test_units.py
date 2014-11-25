@@ -9,22 +9,22 @@ def test_amount_creation():
     assert_equal((5*metres).unit, "metres")
 
 def test_conversion():
-    print(Amount(5,"metres").to("millimetres"))
+    assert_equal((5*metres).to("millimetres"), 5000*millimetres)
 
 def test_addition():
-    print(3*metres + 5*millimetres)
-    print((3*metres + 5*metres).number)
-
-    print(((4*metres + 1.5*metres)).to("millimetres").number)
+    assert_equal((3*metres + 5*millimetres), 3.005*metres)
+    assert_equal((3*metres + 5*millimetres), 3005*millimetres)
+    assert_equal((3*metres + 5*millimetres).to("metres").number, 3.005)
 
 def test_equality():
     assert_true(3*metres==3*metres)
     assert_true(3*metres==3000*millimetres)
     assert_false(3*metres==3001*millimetres)
     assert_false(3*metres==2*metres)
+    assert_false(3*metres==3)
 
 def test_multiplication():
-    print(3*metres)
+    assert_equal(3*metres*5, 15*metres)
 
 def test_inconsistent_units():
     pass

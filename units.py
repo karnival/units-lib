@@ -15,11 +15,14 @@ class Amount:
         return self.__add__(self, other)
 
     # Multiplication by unitless scalars only.
-    def __mul__(self, number):
-        return Amount(number, self.unit)
+    def __mul__(self, other):
+        if isinstance(other, (int, long, float)):
+            return Amount(other*self.number, self.unit)
+        elif isinstance(other, Amount):
+            return Amount(other.number*self.number, self.unit*self.unit)
 
-    def __rmul__(self, number):
-        return self.__mul__(number)
+    def __rmul__(self, other):
+        return self.__mul__(other)
 
     def __eq__(self, other):
         try:
