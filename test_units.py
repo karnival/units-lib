@@ -11,6 +11,11 @@ def test_amount_creation():
 def test_conversion():
     assert_equal((5*metres).to("millimetres"), 5000*millimetres)
 
+    try:
+        (5*metres).to("coulombs")
+    except KeyError:
+        assert True 
+
 def test_addition():
     assert_equal((3*metres + 5*millimetres), 3.005*metres)
     assert_equal((3*metres + 5*millimetres), 3005*millimetres)
