@@ -1,5 +1,6 @@
 # Global dictionary of conversion factors.
-factor_dict = {("metres", "metres") : 1, ("metres", "millimetres") : 1000}
+factor_dict = {("metres", "metres") : 1, ("metres", "millimetres") : 1000,
+               ("millimetres", "metres") : 0.001}
 
 # Amount of some quantity -- e.g. 5*metres.
 class Amount:
@@ -18,7 +19,7 @@ class Amount:
             return self
         else:
             factor = factor_dict[self.unit, new_unit]
-            return Amount(number*factor, new_unit)
+            return Amount(self.number*factor, new_unit)
 
 
 a = Amount(5, "metres")
@@ -26,3 +27,5 @@ print(a.number)
 print(a.unit)
 print((a + Amount(2, "metres")).number)
 print((a + Amount(2, "metres")).unit)
+print((a + Amount(2, "millimetres")).number)
+print((a + Amount(2, "millimetres")).unit)
