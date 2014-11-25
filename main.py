@@ -19,7 +19,7 @@ class Amount:
         return Amount(number, self.unit)
 
     def __rmul__(self, number):
-        return self.__mul__(self, number)
+        return self.__mul__(number)
 
     def to(self, new_unit):
         if self.unit == new_unit:
@@ -42,3 +42,4 @@ print((Amount(2, "millimetres") + a).unit)
 
 metres = Amount(1, "metres")
 print(3*metres)
+print(3*metres + 5*metres)
