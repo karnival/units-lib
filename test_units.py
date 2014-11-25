@@ -4,22 +4,22 @@ from nose.tools import assert_almost_equal, assert_greater, assert_less,\
 assert_equal, assert_sequence_equal, assert_true, assert_false
 
 def test_amount_creation():
-    assert_equal(Amount(5,"metres").number, 5)
-    assert_equal(Amount(5,"metres").unit, "metres")
-    assert_equal((5*metres).unit, "metres")
+    assert_equal(Amount(5,MetresUnit).number, 5)
+    assert_equal(Amount(5,MetresUnit).unit, MetresUnit)
+    assert_equal((5*metres).unit, MetresUnit)
 
 def test_conversion():
-    assert_equal((5*metres).to("millimetres"), 5000*millimetres)
+    assert_equal((5*metres).to(MillimetresUnit), 5000*millimetres)
 
     try:
-        (5*metres).to("coulombs")
+        (5*metres).to(CoulombsUnit)
     except KeyError:
         assert True 
 
 def test_addition():
     assert_equal((3*metres + 5*millimetres), 3.005*metres)
     assert_equal((3*metres + 5*millimetres), 3005*millimetres)
-    assert_equal((3*metres + 5*millimetres).to("metres").number, 3.005)
+    assert_equal((3*metres + 5*millimetres).to(MetresUnit).number, 3.005)
 
 def test_equality():
     assert_true(3*metres==3*metres)
