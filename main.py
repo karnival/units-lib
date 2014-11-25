@@ -14,6 +14,13 @@ class Amount:
     def __radd__(self, other):
         return self.__add__(self, other)
 
+    # Multiplication by unitless scalars only.
+    def __mul__(self, number):
+        return Amount(number, self.unit)
+
+    def __rmul__(self, number):
+        return self.__mul__(self, number)
+
     def to(self, new_unit):
         if self.unit == new_unit:
             return self
@@ -29,3 +36,9 @@ print((a + Amount(2, "metres")).number)
 print((a + Amount(2, "metres")).unit)
 print((a + Amount(2, "millimetres")).number)
 print((a + Amount(2, "millimetres")).unit)
+print((Amount(2, "millimetres") + a).number)
+print((Amount(2, "millimetres") + a).unit)
+
+
+metres = Amount(1, "metres")
+print(3*metres)
