@@ -31,6 +31,14 @@ def test_equality():
 def test_multiplication():
     assert_equal(3*metres*5, 15*metres)
     assert_equal((3*metres * 5*coulombs), 15*metres*coulombs)
+    a = 3*metres*millimetres * 5*coulombs*metres
+    print a.number
+    print a.unit.compact_string
+    print a.to(MetresUnit*MetresUnit*MetresUnit*CoulombsUnit).number
+    b = 0.015*metres*metres*metres*coulombs
+    print b.number
+    print b.unit.compact_string
+    assert_equal((3*metres*millimetres * 5*coulombs*metres), 0.015*metres*metres*metres*coulombs)
 
 def test_inconsistent_units():
     try:
