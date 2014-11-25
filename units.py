@@ -21,6 +21,14 @@ class Amount:
     def __rmul__(self, number):
         return self.__mul__(number)
 
+    def __eq__(self, other):
+        try:
+            converted = other.to(self.unit)
+        except:
+            pass
+        else:
+            return self.number==converted.number
+
     def to(self, new_unit):
         if self.unit == new_unit:
             return self
