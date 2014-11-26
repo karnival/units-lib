@@ -1,0 +1,21 @@
+Newtons: !!python/tuple
+- [kilograms, metres, seconds^-1, seconds^-1]
+- 1.0
+coulombs: !!python/tuple
+- [coulombs]
+- 1.0
+kilograms: !!python/tuple
+- [kilograms]
+- 1.0
+metres: !!python/tuple
+- [metres]
+- 1.0
+millimetres: !!python/tuple
+- [metres]
+- 1000.0
+pounds: !!python/tuple
+- [kilograms]
+- 2.204623
+seconds^-1: !!python/tuple
+- [seconds^-1]
+- 1.0

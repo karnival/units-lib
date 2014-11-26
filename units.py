@@ -1,9 +1,8 @@
-# Global dictionary of conversion factors.
-factor_dict = {"metres" : (["metres"], 1.0), "millimetres" : (["metres"], 1000.0),
-               "coulombs" : (["coulombs"], 1.0), "Newtons" : (["kilograms","metres","seconds^-1","seconds^-1"],1.0),
-               "kilograms" : (["kilograms"], 1.0), "seconds^-1" : (["seconds^-1"], 1.0),
-               "pounds" : (["kilograms"], 2.204623)
-               }
+import yaml
+import os
+
+factor_dict = yaml.load(open(os.path.join(os.path.dirname(__file__),'factor_dict.yml')))
+
 class IncompatibleTypesError(Exception):
         pass
 
@@ -103,10 +102,5 @@ class Unit(object):
     def __rmul__(self, other):
         return self.__mul__(self, other)
 
-MetresUnit = Unit(["metres"])
-MillimetresUnit = Unit(["millimetres"])
-CoulombsUnit = Unit(["coulombs"])
-
-metres = Amount(1, MetresUnit)
-millimetres = Amount(1, MillimetresUnit)
-coulombs = Amount(1, CoulombsUnit)
+for unit in factor_dict:
+    globals()[unit] = Amount(1, Unit([unit]))
