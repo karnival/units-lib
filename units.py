@@ -1,8 +1,6 @@
 import yaml
 import os
 
-factor_dict = yaml.load(open(os.path.join(os.path.dirname(__file__),'factor_dict.yml')))
-
 class IncompatibleTypesError(Exception):
         pass
 
@@ -66,14 +64,14 @@ class Amount(object):
             new_list_SI = []
             new_to_SI = 1
             for unit in new_unit.units_list:
-                new_list_SI = new_list_SI + factor_dict[unit][0]
-                new_to_SI = new_to_SI*factor_dict[unit][1]
+                new_list_SI = new_list_SI + definitions[unit][0]
+                new_to_SI = new_to_SI*definitions[unit][1]
 
             self_list_SI = []
             self_to_SI = 1
             for unit in self.unit.units_list:
-                self_list_SI = self_list_SI + factor_dict[unit][0]
-                self_to_SI = self_to_SI*factor_dict[unit][1]
+                self_list_SI = self_list_SI + definitions[unit][0]
+                self_to_SI = self_to_SI*definitions[unit][1]
 
             if sorted(new_list_SI) == sorted(self_list_SI):
                 return new_to_SI / self_to_SI 
@@ -102,5 +100,11 @@ class Unit(object):
     def __rmul__(self, other):
         return self.__mul__(self, other)
 
-for unit in factor_dict:
+# Load definitions file.
+definitions = yaml.load(open(os.path.join(os.path.dirname(__file__),'definitions.yml')))
+
+# Create Amount of size 1 for each unit -- this is what lets us express units as
+# e.g. 3*unitname
+for unit in definitions:
     globals()[unit] = Amount(1, Unit([unit]))
+
