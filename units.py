@@ -1,6 +1,12 @@
 # Global dictionary of conversion factors.
-factor_dict = {"metres" : (["metres"], 1.0), "millimetres" : (["metres"], 1000.0), "coulombs" : (["coulombs"], 1.0)}
-               
+factor_dict = {"metres" : (["metres"], 1.0), "millimetres" : (["metres"], 1000.0),
+               "coulombs" : (["coulombs"], 1.0), "Newtons" : (["kilograms","metres","seconds^-1","seconds^-1"],1.0),
+               "kilograms" : (["kilograms"], 1.0), "seconds^-1" : (["seconds^-1"], 1.0),
+               "pounds" : (["kilograms", 2.204623])
+               }
+class IncompatibleTypesError(Exception):
+    def __init__(self):
+        pass
 
 # Amount of some quantity -- e.g. 5*metres.
 class Amount(object):
@@ -54,15 +60,19 @@ class Amount(object):
 
     def find_factor(self, new_unit):
         # Look up conversions to SI, unit by unit.
-        new_to_SI = 1
-        for unit in new_unit.units_list:
-            new_to_SI = new_to_SI*factor_dict[unit][1]
+        try:
+            new_to_SI = 1
+            for unit in new_unit.units_list:
+                new_to_SI = new_to_SI*factor_dict[unit][1]
 
-        self_to_SI = 1
-        for unit in self.unit.units_list:
-            self_to_SI = self_to_SI*factor_dict[unit][1]
+            self_to_SI = 1
+            for unit in self.unit.units_list:
+                self_to_SI = self_to_SI*factor_dict[unit][1]
 
-        return new_to_SI / self_to_SI 
+            return new_to_SI / self_to_SI 
+        except:
+            raise IncompatibleTypesError
+            print "Incompatible types!"
 
 
 class Unit(object):

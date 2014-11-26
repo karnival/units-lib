@@ -14,7 +14,7 @@ def test_conversion():
 
     try:
         (5*metres).to(CoulombsUnit)
-    except KeyError:
+    except IncompatibleTypesError:
         assert True 
 
 def test_addition():
@@ -46,6 +46,6 @@ def test_multiplication():
 def test_inconsistent_units():
     try:
         3*metres + 5*coulombs
-    except KeyError:
+    except IncompatibleTypesError:
         assert True
 
