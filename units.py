@@ -2,7 +2,7 @@
 factor_dict = {"metres" : (["metres"], 1.0), "millimetres" : (["metres"], 1000.0),
                "coulombs" : (["coulombs"], 1.0), "Newtons" : (["kilograms","metres","seconds^-1","seconds^-1"],1.0),
                "kilograms" : (["kilograms"], 1.0), "seconds^-1" : (["seconds^-1"], 1.0),
-               "pounds" : (["kilograms", 2.204623])
+               "pounds" : (["kilograms"], 2.204623)
                }
 class IncompatibleTypesError(Exception):
         pass
