@@ -1,11 +1,8 @@
 import yaml
 import os
-
-class IncompatibleTypesError(Exception):
-        pass
-
-class TypeNotFoundError(Exception):
-        pass
+from errors import IncompatibleTypesError, TypeNotFoundError
+from unit import *
+from amount import *
 
 # Amount of some quantity -- e.g. 5*metres.
 class Amount(object):
@@ -81,24 +78,6 @@ class Amount(object):
         except not IncompatibleTypesError:
             raise TypeNotFoundError("Type not found in unit dictionary!")
 
-
-class Unit(object):
-    def __init__(self, units_list):
-        self.units_list = units_list
-        self.compact_string = ""
-        self.stringify()
-
-    def stringify(self):
-        self.compact_string = " ".join(self.units_list)
-
-    def __eq__(self, other):
-        return (sorted(self.units_list) == sorted(other.units_list))
-
-    def __mul__(self, other):
-        return Unit(self.units_list + other.units_list)
-
-    def __rmul__(self, other):
-        return self.__mul__(self, other)
 
 # Load definitions file.
 definitions = yaml.load(open(os.path.join(os.path.dirname(__file__),'definitions.yml')))

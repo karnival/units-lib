@@ -16,6 +16,12 @@ millimetres: !!python/tuple
 pounds: !!python/tuple
 - [kilograms]
 - 2.204623
-seconds^-1: !!python/tuple
-- [seconds^-1]
+seconds: !!python/tuple
+- [seconds]
 - 1.0
+Kelvin: !!python/tuple
+- [Kelvin]
+- 1.0
+inches: !!python/tuple
+- [metres]
+- 39.37
