@@ -1,21 +1,44 @@
 Newtons: !!python/tuple
-- [kilograms, metres, seconds^-1, seconds^-1]
+- [kilograms, metres, seconds]
+- [1.0, 1.0, -2.0]
 - 1.0
 coulombs: !!python/tuple
-- [coulombs]
-- 1.0
-kilograms: !!python/tuple
-- [kilograms]
-- 1.0
-metres: !!python/tuple
-- [metres]
+- [amperes, seconds]
+- [1.0, 1.0]
 - 1.0
 millimetres: !!python/tuple
 - [metres]
+- [1.0]
 - 1000.0
 pounds: !!python/tuple
 - [kilograms]
+- [1.0]
 - 2.204623
-seconds^-1: !!python/tuple
-- [seconds^-1]
+metres: !!python/tuple
+- [metres]
+- [1.0]
+- 1.0
+seconds: !!python/tuple
+- [seconds]
+- [1.0]
+- 1.0
+amperes: !!python/tuple
+- [amperes]
+- [1.0]
+- 1.0
+Kelvin: !!python/tuple
+- [Kelvin]
+- [1.0]
+- 1.0
+candela: !!python/tuple
+- [candela]
+- [1.0]
+- 1.0
+moles: !!python/tuple
+- [moles]
+- [1.0]
+- 1.0
+kilograms: !!python/tuple
+- [kilograms]
+- [1.0]
 - 1.0
