@@ -37,6 +37,9 @@ def test_multiplication():
 
     assert_equal((3*metres*millimetres * 5*coulombs*metres), 0.015*metres*metres*metres*coulombs)
 
+def test_division():
+    2*metres/seconds + 3*inches/minutes
+
 def test_inconsistent_units():
     try:
         3*metres + 5*coulombs

@@ -34,3 +34,6 @@ pounds_mass:
 coulombs:
 - {amperes: 1.0, seconds: 1.0}
 - 1.0
+minutes:
+- {seconds: 1.0}
+- 60.0
