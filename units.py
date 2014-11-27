@@ -60,7 +60,7 @@ class Amount(object):
             if self.unit == new_unit.unit:
                 return self
             else:
-                factor = self.find_factor(new_unit.unit) 
+                factor = self.unit.find_factor(new_unit.unit) 
                 return Amount(self.number*factor, new_unit.unit)
         else:
             if self.unit == new_unit:
@@ -72,57 +72,36 @@ class Amount(object):
 
 
 class Unit(object):
-    def __init__(self, units_dict, name, factor):
-        self.units_dict = units_dict
-        self.units_list = [i for i in self.units_dict]
-        self.name = name
-        self.factor = factor
+    def __init__(self, definition):
+        self.dimns_dict = definition[0]
+        self.dimns_list = [(w + "^" + str(n) + " ") for (w,n) in self.dimns_dict.iteritems()]
+        self.factor = definition[1]
 
     def __eq__(self, other):
-        return (self.units_dict == other.units_dict and self.factor == other.factor)
+        return (self.dimns_dict == other.dimns_dict and self.factor == other.factor)
 
     def __mul__(self, other):
         # Add together dictionary items with matching keys.
-        union_dict = [(k, self.units_dict[k] + other.units_dict[k]) for k in
-                       set(self.units_dict) & set(other.units_dict)]
-
-        self_not_other = [(k, self.units_dict[k]) for k in set(self.units_dict)
-                          - set(other.units_dict)]
-
-        other_not_self = [(k, other.units_dict[k]) for k in set(other.units_dict)
-                          - set(self.units_dict)]
-
-        return_dict = dict(union_dict + self_not_other + other_not_self)
-
-        return Unit(return_dict, self.name + other.name, self.factor*other.factor)
+        return_dict = dict((k, self.dimns_dict[k] + other.dimns_dict[k]) for k in self.dimns_dict)
+        return_factor = self.factor * other.factor
+        return Unit([return_dict, return_factor])
 
     def __rmul__(self, other):
         return self.__mul__(self, other)
 
     def __div__(self, other):
-        # Make the denominator have negative exponents in its units_dict, then
+        # Make the denominator have negative exponents in its dimns_dict, then
         # multiply.
         other_reciprocal = copy(other)
-        other_reciprocal.units_dict = [(k, -other.units_dict[k]) for k in other.units_dict]
+        other_reciprocal.dimns_dict = dict((k, -other.dimns_dict[k]) for k in other.dimns_dict)
         return self.__mul__(self, other_reciprocal)
 
     def find_factor(self, new_unit):
         # Look up conversions to SI, unit by unit. If units are compatible,
         # conversion factor is the product of individual conversion factors.
         try:
-            new_to_SI = 1
-            print self.factor
-            for unit in new_unit.units_dict:
-                print definitions[unit]
-                print new_unit.units_dict
-                new_to_SI = new_to_SI*definitions[unit][2]**new_unit.units_dict[unit][1]
-
-            self_to_SI = 1
-            for unit in self.unit.units_dict:
-                self_to_SI = self_to_SI*definitions[unit][2]**self.unit.units_dict[unit][1]
-
-            if new_unit.units_dict == self.unit.units_dict:
-                return new_to_SI / self_to_SI 
+            if new_unit.dimns_dict == self.dimns_dict:
+                return new_unit.factor / self.factor
             else:
                 raise IncompatibleTypesError("Types are incompatible.")
 
@@ -135,7 +114,17 @@ definitions = yaml.load(open(os.path.join(os.path.dirname(__file__),'definitions
 # Create Amount of size 1 for each unit -- this is what lets us express units as
 # e.g. 3*unitname
 for unit in definitions:
-    unit_dict = dict(zip(definitions[unit][0], definitions[unit][1]))
-    globals()[unit] = Amount(1, Unit(unit_dict, [unit], definitions[unit][2]))
+    # Expand dimension dicts: where a fundamental dimension isn't specified, set
+    # it to zero.
+    definition = definitions[unit]
 
-#print Newtons.unit.units_dict
+    base_dimensions = ("metres", "kilograms", "amperes", "Kelvin", "seconds",
+                       "moles", "candela")
+
+    for dimension in base_dimensions:
+        if dimension not in definition[0]:
+            definition[0][dimension] = 0.0
+
+    globals()[unit] = Amount(1, Unit(definition))
+
+#print Newtons.unit.dimns_dict

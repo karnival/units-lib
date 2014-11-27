@@ -10,7 +10,7 @@ def test_conversion():
     assert_equal((5*metres).to(millimetres.unit), 5000*millimetres)
 
     try:
-        (5*metres).to(Unit(["coulombs"]))
+        (5*metres).to(coulombs)
     except IncompatibleTypesError:
         assert True 
 
@@ -42,4 +42,3 @@ def test_inconsistent_units():
         3*metres + 5*coulombs
     except IncompatibleTypesError:
         assert True
-
