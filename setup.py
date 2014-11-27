@@ -5,5 +5,4 @@ setup(
     version = "0.1",
     packages = [''],
     package_data = {'' : ['definitions.yml']},
-    include_package_data=True,
 )
